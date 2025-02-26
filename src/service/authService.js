@@ -1,5 +1,5 @@
 import { apiClient } from "../config/apiConfig";
 
-export function register(body) {
-  return apiClient.post("/auth/register", body);
+export async function register(body) {
+  return (await apiClient.post("/auth/register", body))?.data;
 }

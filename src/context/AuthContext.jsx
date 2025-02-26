@@ -1,4 +1,5 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import { apiClient } from "../config/apiConfig";
 
 const AuthContext = createContext({
   user: null,
@@ -6,8 +7,17 @@ const AuthContext = createContext({
 });
 
 export function AuthContextProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || null
+  );
+  const [token, setToken] = useState(localStorage.getItem("token") || null);
+
+  useEffect(() => {
+    console.log("token", token);
+
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user, token]);
 
   return (
     <AuthContext.Provider
